@@ -1,3 +1,5 @@
+<link href="markdown.css" rel="stylesheet"></link>
+
 # spring-cache-ch-1 練習
 
 ### 基礎環境
@@ -24,9 +26,17 @@
 6. cacheManager / cacheResolver 
 7. condition:where condition =>spEL <br>
 	``condition="#id>0" `` <br>
-	`` condition="#a0>0"`` 第一個param>0
-8. unless : nagtive condition 否定cache 當unless condition =true 則不cache &nbsp;&nbsp; ex: #result==null
+	``condition="#a0>0"`` 第一個param>0 <br>
+	``condition="#a0>1 and #root.methodNames eq 'aaa' " ``多個條件
+8. unless : nagtive condition 否定cache 當unless condition =true 則不cache &nbsp;&nbsp; ex: #result==null <br>
+ 用法與condition相同  依樣是spEL 但滿足條件不cache
 9. sync: 非同步
+
+### @CachePut 有點類似 putMapping效果 ，修改 更新 儲存
+1. 跟cacheable不同 ， 不管如何都先調用function然後儲存/覆蓋
+2. *** 用cachePut若無更新剛剛cache的data &nbsp;--->&nbsp; 檢查cacheNames的key需跟cachePut相同 ，不然會新增兩筆cache <br>
+	key="#result.id"
+	key="#emp.id"
 
 ### cache 原理
 1. CacheAutoConfiguration.class 內
@@ -43,6 +53,7 @@
 
 ### 自訂義cacheConfig
 @Configuration  @Bean
+
 ```java
 
 public KeyGenerator keyGenerator() {
