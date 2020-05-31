@@ -4,9 +4,15 @@ import java.net.UnknownHostException;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.cache.RedisCacheManager.RedisCacheManagerBuilder;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
 import com.bill.cache.bean.Employee;
 
@@ -24,4 +30,28 @@ public class MyRedisConfig {
 		template.setDefaultSerializer(jackson2JsonRedisSerializer);
 		return template;
 	}
+	@Bean
+	public RedisCacheConfiguration empRedisCacheConfiguration() {
+		RedisSerializer<Employee> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Employee>(Employee.class);
+		SerializationPair<Employee> serializationPair = RedisSerializationContext.SerializationPair
+																				 .fromSerializer(jackson2JsonRedisSerializer);
+
+		return RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(serializationPair);
+	}
+	@Bean
+	public RedisCacheManager empCacheManager(RedisConnectionFactory redisConnectionFactory) {
+		RedisCacheManagerBuilder builder = RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory)
+				.cacheDefaults(empRedisCacheConfiguration());
+		RedisCacheManager cm = builder.build();
+		return cm;
+	}
+
+
+	
+//	@Bean
+//	public RedisCacheManager empCacheManager(RedisTemplate<Object, Employee> empResidTemplate) {
+//		RedisCacheManager cacheManager=new RedisCacheManager(empResidTemplate);
+//		cacheManager.setUsePrefix(true);
+//		return cacheManager;
+//	}
 }

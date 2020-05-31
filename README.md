@@ -170,6 +170,25 @@ spring.redis.jedis.pool.min-idle=0
 # 連線超時時間（毫秒）
 spring.redis.timeout=0
 
+----------------------------yml這邊是網路上參考的------------------
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 60s  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
+    # 连接池配置，2.0中直接使用jedis或者lettuce配置连接池
+    jedis:
+      pool:
+        # 最大空闲连接数
+        max-idle: 500
+        # 最小空闲连接数
+        min-idle: 50
+        # 等待可用连接的最大时间，负数为不限制
+        max-wait:  -1s
+        # 最大活跃连接数，负数为不限制
+        max-active: -1
+
 ```
 
 ```
@@ -223,7 +242,7 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL8Dialect
 
 
 
-# 把emp data 轉成 json 存入 <br>
+# 系統啟動後 把emp data 存入 <br>
 
 自訂義， 在redisAutoConfiguration內可找到
 
@@ -290,6 +309,97 @@ public class MyRedisConfig {
   "gender": 0,
   "dId": 1003
 }
+```
+
+## 執行boot cache會存入redis
+1. 原本是存在boot中的concurrentCache但接上redis後 會有地方存，就不存在concurrentCache
+2. cacheManager 變成 redisCacheManager
+
+
+
+# 保存成json 
+1. 引入 redis starter ，使cacheManager變成RedisCacheManager
+2. default 的RedisCacheManager 操作redis是使用 RedisTemplate<Object,Object>
+3. 不用default的 object類型  自訂義CacheManager 
+4. 可照著 RedisCacheConfiguration.java 更改
+
+
+```java 
+
+這個寫法會噴錯 springBoot(2.0 以上，1.多不會錯)
+@Bean
+	public RedisCacheManager empCacheManager(RedisTemplate<Object, Employee> empResidTemplate) {
+		RedisCacheManager cacheManager=new RedisCacheManager(empResidTemplate);
+		cacheManager.setUsePrefix(true);
+		return cacheManager;
+	}
+
+
+```
+
+
+
+```
+1.X版緩存時間
+
+@Bean
+    public CacheManager cacheManager(RedisTemplate redisTemplate) {
+        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
+        //设置缓存过期时间
+        cacheManager.setDefaultExpiration(10000);
+        return cacheManager;
+    }
+
+
+
+補充2.X之後的 緩存時間   
+
+@Bean
+	public CacheManager cacheManager(RedisConnectionFactory factory) {
+	    RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();  // 生成一个默认配置，通过config对象即可对缓存进行自定义配置
+	    config = config.entryTtl(Duration.ofMinutes(1))     // 设置缓存的默认过期时间，也是使用Duration设置
+	            .disableCachingNullValues();     // 不缓存空值
+
+	    // 设置一个初始化的缓存空间set集合
+	    Set<String> cacheNames =  new HashSet<>();
+	    cacheNames.add("my-redis-cache1");
+	    cacheNames.add("my-redis-cache2");
+
+	    // 对每个缓存空间应用不同的配置
+	    Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
+	    configMap.put("my-redis-cache1", config);
+	    configMap.put("my-redis-cache2", config.entryTtl(Duration.ofSeconds(120)));
+
+	    RedisCacheManager cacheManager = RedisCacheManager.builder(factory)     // 使用自定义的缓存配置初始化一个cacheManager
+	            .initialCacheNames(cacheNames)  // 注意这两句的调用顺序，一定要先调用该方法设置初始化的缓存名，再初始化相关的配置
+	            .withInitialCacheConfigurations(configMap)
+	            .build();
+	    return cacheManager;
+	}
+
+```
+
+# 解決2.0存入json方法
+參考網友: <a href="https://blog.csdn.net/qq_41534573/article/details/104895896">講解過程請參考</a>
+
+```java
+
+@Bean
+	public RedisCacheConfiguration empRedisCacheConfiguration() {
+		RedisSerializer<Employee> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Employee>(Employee.class);
+		SerializationPair<Employee> serializationPair = RedisSerializationContext.SerializationPair
+																				 .fromSerializer(jackson2JsonRedisSerializer);
+
+		return RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(serializationPair);
+	}
+	@Bean
+	public RedisCacheManager empCacheManager(RedisConnectionFactory redisConnectionFactory) {
+		RedisCacheManagerBuilder builder = RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory)
+				.cacheDefaults(empRedisCacheConfiguration());
+		RedisCacheManager cm = builder.build();
+		return cm;
+	}
+
 ```
 
 
