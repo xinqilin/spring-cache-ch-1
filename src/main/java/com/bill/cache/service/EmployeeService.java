@@ -14,14 +14,14 @@ public class EmployeeService {
 	@Autowired
 	EmployeeMapper empMapper;
 	
-	@Cacheable(cacheNames= {"emps"},keyGenerator="myKeyGenerator" ,condition="#a0>1")
+	@Cacheable(cacheNames= {"emp"},keyGenerator="myKeyGenerator" ,condition="#a0>1" )
 	public Employee getEmpById(Integer id) {
 		System.out.println("select emp's id: "+id);
 		return empMapper.getEmpById(id);
 	}
 	
 	
-	@CachePut(cacheNames= "emps")
+	@CachePut(cacheNames= "emp" , key="#result.id")  //key="#emp.id"
 	public Employee updateEmp(Employee emp){
 		System.out.println("要update的emp: "+emp);
 		empMapper.updateEmp(emp);

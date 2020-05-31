@@ -1,6 +1,6 @@
 <link href="http://thomasf.github.io/solarized-css/solarized-light.min.css" rel="stylesheet"></link>
 
-# spring-cache-ch-1 練習
+# spring-cache-ch-1 recording
 
 ### 基礎環境
 1. DB<br>
@@ -37,6 +37,7 @@
 2. *** 用cachePut若無更新剛剛cache的data &nbsp;--->&nbsp; 檢查cacheNames的key需跟cachePut相同 ，不然會新增兩筆cache <br>
 	key="#result.id"
 	key="#emp.id"
+3. !!! @Cacheable的key 不能用 #result (順序問題)  @CachePut可以
 
 ### cache 原理
 1. CacheAutoConfiguration.class 內

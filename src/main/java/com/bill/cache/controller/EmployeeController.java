@@ -21,7 +21,7 @@ public class EmployeeController {
 		return empService.getEmpById(id);
 	}
 	
-	@PutMapping("/emp")
+	@GetMapping("/emp")
 	public Employee updateEmp(Employee emp) {
 		return empService.updateEmp(emp);
 	}
