@@ -206,6 +206,93 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL8Dialect
 
 ```
 
+### redis 存入emp data
+# 若想把emp存進redis POJO 需序列化<br>
+``implements Serializable `` 則存入的資料是序列化後的成果
+
+```
+//存入序列化後的data  (有點像亂碼)
+
+@Test
+	public void testEmpRedis() {
+		Employee empId=employeeMapper.getEmpById(1);
+		redisTemplate.opsForValue().set("emp-01", empId);
+		
+	}
+```
+
+
+
+# 把emp data 轉成 json 存入 <br>
+
+自訂義， 在redisAutoConfiguration內可找到
+
+```java
+
+//原始狀態
+
+@Configuration
+public class MyRedisConfig {
+
+	
+	@Bean
+	public RedisTemplate<Object, Employee> residTemplate(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException{
+		RedisTemplate<Object, Employee> template=new RedisTemplate<Object, Employee>();
+		template.setConnectionFactory(redisConnectionFactory);
+		return template;
+	}
+}
+```
+
+
+```java
+//自訂義序列emp
+
+@Configuration
+public class MyRedisConfig {
+
+	
+	@Bean
+	public RedisTemplate<Object, Employee> empResidTemplate(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException{
+		RedisTemplate<Object, Employee> template=new RedisTemplate<Object, Employee>();
+		template.setConnectionFactory(redisConnectionFactory);
+		//emp序列化後 傳入 defaultSerializer
+		Jackson2JsonRedisSerializer<Employee> jackson2JsonRedisSerializer=new Jackson2JsonRedisSerializer<Employee>(Employee.class);
+		template.setDefaultSerializer(jackson2JsonRedisSerializer);
+		return template;
+	}
+}
+
+```
+
+
+# 測試
+
+```java
+	@Autowired
+	RedisTemplate<Object,Employee> empResidTemplate;
+	
+
+
+	@Test
+	public void testEmpRedis2() {
+		Employee empId=employeeMapper.getEmpById(1);
+		empResidTemplate.opsForValue().set("emp-01", empId);
+	}
+
+```
+# 成功存入!!!!!
+```json
+{
+  "id": 1,
+  "lastName": "Bill",
+  "email": "123@gmail.com",
+  "gender": 0,
+  "dId": 1003
+}
+```
+
+
 
 
 

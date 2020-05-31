@@ -1,7 +1,8 @@
 package com.bill.cache.bean;
 
+import java.io.Serializable;
 
-public class Employee {
+public class Employee implements Serializable{
 	private Integer id;
     private String lastName;
     private String email;

@@ -18,14 +18,33 @@ class SpringBootCacheApplicationTests {
 	@Autowired
 	StringRedisTemplate stringRedisTemplate;
 	
+//	未定義前
+//	@Autowired
+//	RedisTemplate redisTemplate;
+	
+//	自訂義後
 	@Autowired
-	RedisTemplate redisTemplate;
+	RedisTemplate<Object,Employee> empResidTemplate;
 	
 //	String、List、Set、Hash(散列)、ZSet(有序集合)
-	@Test
-	public void testRedis() {
+//	@Test
+//	public void testRedis() {
 //		stringRedisTemplate.opsForValue().append("msg","hello" );
-		System.out.println(stringRedisTemplate.opsForValue().get("msg"));;
+//		System.out.println(stringRedisTemplate.opsForValue().get("msg"));;
+//	}
+	
+	
+//	@Test
+//	public void testEmpRedis() {
+//		Employee empId=employeeMapper.getEmpById(1);
+//		redisTemplate.opsForValue().set("emp-01", empId);
+//		
+//	}
+	
+	@Test
+	public void testEmpRedis2() {
+		Employee empId=employeeMapper.getEmpById(1);
+		empResidTemplate.opsForValue().set("emp-01", empId);
 	}
 	
 //	@Test
