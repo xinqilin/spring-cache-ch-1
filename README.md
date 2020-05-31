@@ -64,6 +64,8 @@
 						@CachePut(value="emp",key="#result.email")
 				}
 			)
+			
+			在記錄@Cacheable(value="emp",key="#lastName")的同時也記錄這一筆的 id 跟 email
 	
 	```
 	
@@ -80,8 +82,12 @@ key="#lastName"  --> key="#name"  // 解決
 ```
 	
 
-
-
+### @CacheConfig
+```
+@CacheConfig(cacheNames="emp")
+在cache setting頁 的class 加上 @CacheConfig(cacheNames="XXX")
+這樣這一頁中的 cacheName="XXX" 、 value="XXX"  都不用寫了 
+```
 ### cache 原理
 1. CacheAutoConfiguration.class 內
 2. org.springframework.boot.autofiguration.cache.GenericCacheconfiguration<br>

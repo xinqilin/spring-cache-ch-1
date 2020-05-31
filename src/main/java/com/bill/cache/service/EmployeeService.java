@@ -1,6 +1,7 @@
 package com.bill.cache.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.bill.cache.bean.Employee;
 import com.bill.cache.mapper.EmployeeMapper;
 
+
+//@CacheConfig(cacheNames="emp")  方便的prefix
 @Service
 public class EmployeeService {
 
