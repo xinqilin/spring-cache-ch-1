@@ -1,4 +1,4 @@
-<link href="markdown.css" rel="stylesheet"></link>
+<link href="http://thomasf.github.io/solarized-css/solarized-light.min.css" rel="stylesheet"></link>
 
 # spring-cache-ch-1 練習
 
