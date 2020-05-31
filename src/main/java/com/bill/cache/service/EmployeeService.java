@@ -1,6 +1,7 @@
 package com.bill.cache.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class EmployeeService {
 	@Autowired
 	EmployeeMapper empMapper;
 	
-	@Cacheable(cacheNames= {"emp"},keyGenerator="myKeyGenerator" ,condition="#a0>1" )
+	@Cacheable(cacheNames= {"emp"}/*,keyGenerator="myKeyGenerator" ,condition="#a0>1" */)
 	public Employee getEmpById(Integer id) {
 		System.out.println("select emp's id: "+id);
 		return empMapper.getEmpById(id);
@@ -26,5 +27,13 @@ public class EmployeeService {
 		System.out.println("要update的emp: "+emp);
 		empMapper.updateEmp(emp);
 		return emp;
+	}
+	
+	
+	@CacheEvict(cacheNames= "emp" , key="#id")
+	public void deleteEmp(Integer id) {
+		System.out.println("要delete的empId: "+id);
+//		假裝有刪  ↓↓↓
+//		empMapper.deleteEmp(id);
 	}
 }

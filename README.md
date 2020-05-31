@@ -39,6 +39,12 @@
 	key="#emp.id"
 3. !!! @Cacheable的key 不能用 #result (順序問題)  @CachePut可以
 
+### @CacheEvict
+1. 系統做delete data 時，那筆data不會再用到了 ，所以會同步 清掉cache中那筆data的緩存
+
+
+
+
 ### cache 原理
 1. CacheAutoConfiguration.class 內
 2. org.springframework.boot.autofiguration.cache.GenericCacheconfiguration<br>
