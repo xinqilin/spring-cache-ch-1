@@ -381,6 +381,8 @@ public class MyRedisConfig {
 
 # 解決2.0存入json方法
 參考網友: <a href="https://blog.csdn.net/qq_41534573/article/details/104895896">講解過程請參考</a>
+#### 大概就是<br>
+default 是使用 JdkSerializationRedisSerializer，要換成 Jackson2JsonRedisSerializer才能作為json的緩存
 
 ```java
 

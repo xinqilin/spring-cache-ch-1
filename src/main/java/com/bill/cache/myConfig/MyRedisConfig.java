@@ -42,8 +42,8 @@ public class MyRedisConfig {
 	public RedisCacheManager empCacheManager(RedisConnectionFactory redisConnectionFactory) {
 		RedisCacheManagerBuilder builder = RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory)
 				.cacheDefaults(empRedisCacheConfiguration());
-		RedisCacheManager cm = builder.build();
-		return cm;
+		RedisCacheManager redisCacheManager = builder.build();
+		return redisCacheManager;
 	}
 
 
