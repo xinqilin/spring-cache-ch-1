@@ -118,6 +118,96 @@ public KeyGenerator keyGenerator() {
 
 ```
 
+### cache 的東西在哪裡?
+1. 東西都在concurrentHashMap 內
+2. 開發時 東西會存在 redis、memcached、ehcache 中
+
+### redis使用 local(redis-server c:\Redis\redis.windows.conf)(redis-cli)(auth 123456)
+1. docker images
+2. docker pull redis回來(偶數開頭 穩定版 奇數開頭非穩定版)
+3. docker run -d -p 6379:6379 --name myredis image名
+4. docker ps
+5. import redis starter
+
+```
+<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+
+```
+6. 配置redis properties<br>
+spring.redis.host=redis在的ip address <br>
+spring.redis.password=XXXXXX <br>
+一樣有用autoConfig 就會有 XXXAutoConfiguration  <br>
+主要就 StringRedisTemplate  (主要都字串 <K,V>)、RedisTemplate (都可以 <K,V>) <br>
+``String、List、Set、Hash(散列)、ZSet(有序集合)``
+``stringRedisTemplate.opsForValue().XXX操作 --> String``
+``stringRedisTemplate.opsForXXX().XXX操作``
+
+```
+補充 Redis properties
+
+
+# REDIS (RedisProperties)
+# Redis資料庫索引（預設為0）
+spring.redis.database=0  
+# Redis伺服器地址
+spring.redis.host=127.0.0.1
+# Redis伺服器連線埠
+spring.redis.port=6379  
+# Redis伺服器連線密碼（預設為空）
+spring.redis.password=  
+# 連線池最大連線數（使用負值表示沒有限制）
+spring.redis.jedis.pool.max-active=8  
+# 連線池最大等待時間（使用負值表示沒有限制）
+spring.redis.jedis.pool.max-wait=-1
+# 連線池中的最大空閒連線
+spring.redis.jedis.pool.max-idle=8  
+# 連線池中的最小空閒連線
+spring.redis.jedis.pool.min-idle=0  
+# 連線超時時間（毫秒）
+spring.redis.timeout=0
+
+```
+
+```
+額外補充JPA properties
+
+#JPA Configuration:
+
+spring.jpa.hibernate.ddl-auto=update
+
+spring.jpa.database=mysql
+
+spring.jpa.show-sql=true
+
+spring.jpa.properties.hibernate.globally_quoted_identifiers=true
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL8Dialect
+```
+
+
+### 在Test下測試
+
+```java
+
+	@Autowired
+	StringRedisTemplate stringRedisTemplate;
+	
+	@Autowired
+	RedisTemplate redisTemplate;
+	
+	@Test
+	public void testRedis() {
+		stringRedisTemplate.opsForValue().append("msg","hello" ); //設定
+		System.out.println(stringRedisTemplate.opsForValue().get("msg")); // 拿東西
+	}
+
+```
+
+
+
 
 
 
