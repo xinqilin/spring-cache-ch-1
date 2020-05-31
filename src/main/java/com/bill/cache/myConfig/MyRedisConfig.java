@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheManager.RedisCacheManagerBuilder;
@@ -38,6 +39,7 @@ public class MyRedisConfig {
 
 		return RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(serializationPair);
 	}
+	@Primary  //有多個時  默認這個
 	@Bean
 	public RedisCacheManager empCacheManager(RedisConnectionFactory redisConnectionFactory) {
 		RedisCacheManagerBuilder builder = RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory)
