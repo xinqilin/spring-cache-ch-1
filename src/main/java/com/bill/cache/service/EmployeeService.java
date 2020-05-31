@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import com.bill.cache.bean.Employee;
@@ -35,5 +36,20 @@ public class EmployeeService {
 		System.out.println("要delete的empId: "+id);
 //		假裝有刪  ↓↓↓
 //		empMapper.deleteEmp(id);
+	}
+	
+	@Caching(
+				cacheable= {
+						@Cacheable(cacheNames="emp",key="#name")
+				},
+				put= {
+						@CachePut(cacheNames="emp",key="#result.id"),
+						@CachePut(cacheNames="emp",key="#result.email")
+				}
+			)
+	public Employee getEmpByName(String name) {
+		System.out.println("使用名字進行查詢");
+		System.out.println("select emp's name: "+name);
+		return empMapper.getEmpByName(name);
 	}
 }

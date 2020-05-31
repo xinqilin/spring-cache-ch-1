@@ -22,4 +22,7 @@ public interface EmployeeMapper {
 	
 	@Delete("DELETE FROM EMPLOYEE WHERE id=#{id}")
 	public void deleteEmp(Integer id);
+	
+	@Select("SELECT * FROM EMPLOYEE WHERE lastName=#{name}")
+	public Employee getEmpByName(String name);
 }
