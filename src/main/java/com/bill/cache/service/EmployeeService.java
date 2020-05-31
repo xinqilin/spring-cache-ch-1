@@ -13,7 +13,7 @@ public class EmployeeService {
 	@Autowired
 	EmployeeMapper empMapper;
 	
-	@Cacheable(cacheNames= {"emps"})
+	@Cacheable(cacheNames= {"emps"},keyGenerator="myKeyGenerator" ,condition="#a0>1")
 	public Employee getEmpById(Integer id) {
 		System.out.println("select emp's id: "+id);
 		return empMapper.getEmpById(id);
