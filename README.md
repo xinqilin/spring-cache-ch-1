@@ -14,5 +14,12 @@
 
 ### cache
 1. 開啟cache annotation  @EnableCaching
-2. 標註上去 @Cacheable @CacheEvict @ CachePut
+2. 在要cache的fun標註上去 @Cacheable @CacheEvict @ CachePut
+3 .cacheable 參數 cacheNames/value :指定要放cache名字
+4. key: <K,V>型式 spEL語法 #id #a0 #a1 #root.args[0] 
+5. keyGenerator: #key生成器，可以自生成    (key/keyGenerator 二選一用，  會撞)
+6. cacheManager / cacheResolver 
+7. condition:where condition =>spEL
+8. unless : nagtive condition 否定cache 當unless condition =true 則不cache  ex: #result==null
+9. sync: 非同步
    
