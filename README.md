@@ -41,7 +41,10 @@
 
 ### @CacheEvict
 1. 系統做delete data 時，那筆data不會再用到了 ，所以會同步 清掉cache中那筆data的緩存
-
+2. @CacheEvict(cacheNames= "emp" , key="#id") &nbsp;&nbsp;&nbsp;注意!!! 要刪對key 若用自訂義autoGeneratorKey 記得刪對
+3. allEntries=true  &nbsp;&nbsp; <--刪掉全部cache  &nbsp;&nbsp; default是false
+4. beforeInvocation=true &nbsp;&nbsp;<--在function之前執行 &nbsp;&nbsp; default是false <br>
+	若function 噴exception 則beforeInvocation=false &nbsp;不會執行 反之則執行
 
 
 

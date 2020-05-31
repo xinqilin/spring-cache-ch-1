@@ -29,8 +29,8 @@ public class EmployeeService {
 		return emp;
 	}
 	
-	
-	@CacheEvict(cacheNames= "emp" , key="#id")
+	//allEntries=true 、 beforeInvocation=true
+	@CacheEvict(cacheNames= "emp" , key="#id" ,allEntries=true)
 	public void deleteEmp(Integer id) {
 		System.out.println("要delete的empId: "+id);
 //		假裝有刪  ↓↓↓
