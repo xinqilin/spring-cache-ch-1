@@ -23,7 +23,8 @@ public class DepartmentController {
 	
 	@GetMapping("/dept")
 	public Department updateDept(Department dept) {
-		return deptService.updateDept(dept);
+		deptService.updateDept(dept);
+		return getDeptById(dept.getId());
 	}
 	
 	@GetMapping("/delDept/{id}")
