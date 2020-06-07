@@ -17,16 +17,21 @@ public class DepartmentController {
 	DepartmentService deptService;
 	
 	
+//	@GetMapping("/dept/{id}")
+//	public Department getDeptById(@PathVariable("id") Integer id) {
+//		return deptService.getDeptById(id);
+//	}
+	
 	@GetMapping("/dept/{id}")
 	public Department getDeptById(@PathVariable("id") Integer id) {
-		return deptService.getDeptById(id);
+		return deptService.getDeptById2(id);
 	}
 	
-	@GetMapping("/dept")
-	public Department updateDept(Department dept) {
-		deptService.updateDept(dept);
-		return getDeptById(dept.getId());
-	}
+//	@GetMapping("/dept")
+//	public Department updateDept(Department dept) {
+//		deptService.updateDept(dept);
+//		return getDeptById(dept.getId());
+//	}
 	
 	@GetMapping("/delDept/{id}")
 	public String deleteEmp(@PathVariable("id") Integer id) {

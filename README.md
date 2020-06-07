@@ -470,10 +470,28 @@ default 是使用 JdkSerializationRedisSerializer，要換成 Jackson2JsonRedisS
 5. 若有設@Primary ，則原本的emp可以不用寫cacheManager，因為是default
 
 
-### 另類用法，AutoWeird cacheManager
+### 另類用法，AutoWeird cacheManager直接操作 cacheManager
 
 ```java
 
+	@Qualifier("deptCacheManager")
+	@Autowired
+	RedisCacheManager deptCacheManager;
+	
+	
+	
+		public Department getDeptById2(Integer id) {
+		Department dept=deptMapper.getDeptById(id);
+		//取得cacheManager
+		Cache deptCache=deptCacheManager.getCache("dept");
+		//把查到的dept塞入  (自訂key,dept物件)		
+		deptCache.put("dept:"+id, dept);
+		return dept;
+	}
+	
+	redis內:
+	dept::dept:1003
+	 前綴  ::   key
 
 ```
 
