@@ -3,6 +3,9 @@
 # spring-cache-ch-1 recording
 
 ### 基礎環境
+jdk:8
+springBoot:2.3.0
+
 1. DB<br>
 2. POJO<br>
 3. 配置持久層<br>
@@ -459,6 +462,20 @@ default 是使用 JdkSerializationRedisSerializer，要換成 Jackson2JsonRedisS
 ```
 
 ### 下一個問題，當製作第二個POJO  (Dept)時，設置好controller、service，mapper，順利存入Redis，但查詢第二次從Cahce中取出data時，會噴錯，會反序列化Emp的東西
+
+1. 在cacheConfig多寫一個dept的 config
+2. 在service頁 @CacheConfig(cacheManager="Config頁設置的cacheManager名稱") 指定使用的cacheManager
+3. 也可直接在function上加上@CacheConfig(cacheManager="Config頁設置的cacheManager名稱")
+4. 有多個時可能會噴錯，記得在config頁 設置default的cacheManager @Primary
+5. 若有設@Primary ，則原本的emp可以不用寫cacheManager，因為是default
+
+
+### 另類用法，AutoWeird cacheManager
+
+```java
+
+
+```
 
 
 

@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.bill.cache.bean.Department;
 import com.bill.cache.service.DepartmentService;
 
-@Controller
+@RestController
 public class DepartmentController {
 
 	
