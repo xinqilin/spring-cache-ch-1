@@ -122,6 +122,19 @@ public KeyGenerator keyGenerator() {
 1. 東西都在concurrentHashMap 內
 2. 開發時 東西會存在 redis、memcached、ehcache 中
 
+
+### redis實作原理
+1. 引入redis的starter，container中保存的是 RedisCacheManager
+2. RedisCacheManager幫我們創建RedisCache作為緩存，RedisCache操作redis緩存data
+3. default 的存儲方式(K,V)都是Object，利用序列化儲存
+4. 更改為json儲存
+
+```
+1. 引入redis 的 starter，cacheManager變成RedisCacheManager
+2. default的 RedisCacheManager，操作redis的時候是RedisTemplate<Object,Object> 要改成我們自己要用的 RedisTemplate<Object,Emp>
+
+```
+
 ### redis使用 local(redis-server c:\Redis\redis.windows.conf)(redis-cli)(auth 123456)
 1. docker images
 2. docker pull redis回來(偶數開頭 穩定版 奇數開頭非穩定版)
@@ -445,6 +458,7 @@ default 是使用 JdkSerializationRedisSerializer，要換成 Jackson2JsonRedisS
 
 ```
 
+### 下一個問題，當製作第二個POJO  (Dept)時，設置好controller、service，mapper，順利存入Redis，但查詢第二次從Cahce中取出data時，會噴錯，會反序列化Emp的東西
 
 
 

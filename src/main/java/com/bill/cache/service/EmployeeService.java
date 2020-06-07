@@ -44,11 +44,12 @@ public class EmployeeService {
 	@Caching(
 				cacheable= {
 						@Cacheable(cacheNames="emp",key="#name")
-				},
-				put= {
-						@CachePut(cacheNames="emp",key="#result.id"),
-						@CachePut(cacheNames="emp",key="#result.email")
 				}
+//				,
+//				put= {
+//						@CachePut(cacheNames="emp",key="#result.id"),
+//						@CachePut(cacheNames="emp",key="#result.email")
+//				}
 			)
 	public Employee getEmpByName(String name) {
 		System.out.println("使用名字進行查詢");
