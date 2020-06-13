@@ -543,6 +543,14 @@ topic:
 
 
 
+RabbitMQ=> 
+docker pull "有management的(有管理介面) (:3-management)" 
+docker run -d -p 5672:5672 -p 15672:15672 --name "名字"  "imageID"
+
+docker inspect "ID 或名稱"  | grep '"IPAddress"' | head -n 1
+
+
+
 
 
    
