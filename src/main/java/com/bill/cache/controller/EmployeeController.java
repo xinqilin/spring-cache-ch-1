@@ -1,10 +1,7 @@
 package com.bill.cache.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.bill.cache.bean.Employee;
 import com.bill.cache.service.EmployeeService;
@@ -21,12 +18,12 @@ public class EmployeeController {
 		return empService.getEmpById(id);
 	}
 	
-	@GetMapping("/emp")
+	@PutMapping("/emp")
 	public Employee updateEmp(Employee emp) {
 		return empService.updateEmp(emp);
 	}
 	
-	@GetMapping("/delEmp/{id}")
+	@DeleteMapping("/delEmp/{id}")
 	public String deleteEmp(@PathVariable("id") Integer id) {
 		empService.deleteEmp(id);
 		return "Delete Success!!!";

@@ -1,13 +1,27 @@
 package com.bill.cache.bean;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
+@Table
 public class Employee implements Serializable{
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column
     private String lastName;
+
+	@Column
     private String email;
+
     //1 male, 0 female
+	@Column
     private Integer gender;
+
+	@Column
     private Integer dId;
     
     

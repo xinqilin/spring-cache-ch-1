@@ -1,48 +1,58 @@
 package com.bill.cache.bean;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Department {
-	private Integer id;
-	private String departmentName;
-	
-	
-	public Department() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+
+    @Id
+    private Integer id;
+
+    @Column
+    private String departmentName;
 
 
-	public Department(Integer id, String departmentName) {
-		super();
-		this.id = id;
-		this.departmentName = departmentName;
-	}
+    public Department() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 
-	@Override
-	public String toString() {
-		return "Department [id=" + id + ", departmentName=" + departmentName + "]";
-	}
+    public Department(Integer id, String departmentName) {
+        super();
+        this.id = id;
+        this.departmentName = departmentName;
+    }
 
 
-	public Integer getId() {
-		return id;
-	}
+    @Override
+    public String toString() {
+        return "Department [id=" + id + ", departmentName=" + departmentName + "]";
+    }
 
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
 
-	public String getDepartmentName() {
-		return departmentName;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
 
-	public void setDepartmentName(String departmentName) {
-		this.departmentName = departmentName;
-	}
-	
-	
-	
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+
 }
