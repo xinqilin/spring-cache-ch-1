@@ -29,7 +29,7 @@ public class DepartmentService {
 
 
     public Department getDeptById2(Integer id) {
-        Department dept = departmentRepository.getOne(id);
+        Department dept = departmentRepository.findById(id).get();
         Cache deptCache = deptCacheManager.getCache("dept");
         deptCache.put("dept:" + id, dept);
         return dept;

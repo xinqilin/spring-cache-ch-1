@@ -23,7 +23,7 @@ public class EmployeeService {
     @Cacheable(cacheNames = {"emp"}/*,keyGenerator="myKeyGenerator" ,condition="#a0>1" */)
     public Employee getEmpById(Integer id) {
         System.out.println("select emp's id: " + id);
-        return employeeRepository.getOne(id);
+        return employeeRepository.findById(id).get();
     }
 
 
