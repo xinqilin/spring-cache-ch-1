@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.bill.cache.bean.Department;
 
+@Deprecated
 @Mapper
 public interface DepartmentMapper {
 

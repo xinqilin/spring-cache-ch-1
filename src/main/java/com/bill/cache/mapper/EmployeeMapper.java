@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Update;
 
 import com.bill.cache.bean.Employee;
 
+
+@Deprecated
 @Mapper
 public interface EmployeeMapper {
 
