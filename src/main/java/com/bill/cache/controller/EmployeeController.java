@@ -6,31 +6,38 @@ import org.springframework.web.bind.annotation.*;
 import com.bill.cache.bean.Employee;
 import com.bill.cache.service.EmployeeService;
 
+import java.util.List;
+
 @RestController
 public class EmployeeController {
 
-	@Autowired
-	EmployeeService empService;
-	
-	
-	@GetMapping("/emp/{id}")
-	public Employee getEmpById(@PathVariable("id") Integer id) {
-		return empService.getEmpById(id);
-	}
-	
-	@PutMapping("/emp")
-	public Employee updateEmp(Employee emp) {
-		return empService.updateEmp(emp);
-	}
-	
-	@DeleteMapping("/delEmp/{id}")
-	public String deleteEmp(@PathVariable("id") Integer id) {
-		empService.deleteEmp(id);
-		return "Delete Success!!!";
-	}
-	
-	@GetMapping("/empName/{name}")
-	public Employee getEmpByName(@PathVariable("name") String name) {
-		return empService.getEmpByName(name);
-	}
+    @Autowired
+    EmployeeService empService;
+
+
+    @GetMapping("/emp/{id}")
+    public Employee getEmpById(@PathVariable("id") Integer id) {
+        return empService.getEmpById(id);
+    }
+
+    @PutMapping("/emp")
+    public Employee updateEmp(Employee emp) {
+        return empService.updateEmp(emp);
+    }
+
+    @DeleteMapping("/delEmp/{id}")
+    public String deleteEmp(@PathVariable("id") Integer id) {
+        empService.deleteEmp(id);
+        return "Delete Success!!!";
+    }
+
+    @GetMapping("/empName/{name}")
+    public Employee getEmpByName(@PathVariable("name") String name) {
+        return empService.getEmpByName(name);
+    }
+
+    @GetMapping("/emps/deptId/{id}")
+    public List<Employee> getEmployeesByDeptId(@PathVariable("id") Integer did) {
+        return empService.getEmployeesByDept(did);
+    }
 }

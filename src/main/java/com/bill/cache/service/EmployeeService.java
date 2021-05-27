@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.bill.cache.bean.Employee;
 import com.bill.cache.mapper.EmployeeMapper;
 
+import java.util.List;
+
 
 //@CacheConfig(cacheNames="emp")  方便的prefix
 @Service
@@ -56,5 +58,17 @@ public class EmployeeService {
         System.out.println("使用名字進行查詢");
         System.out.println("select emp's name: " + name);
         return employeeRepository.findByLastName(name);
+    }
+
+    @Caching(
+            cacheable = {
+                    @Cacheable(cacheNames = "emps", key = "#did")
+            }
+    )
+    public List<Employee> getEmployeesByDept(Integer did) {
+        System.out.println("use dept id to search emp");
+        List<Employee> list = employeeRepository.findEmployeeByDepartment(did);
+        System.out.println(list);
+        return list;
     }
 }
